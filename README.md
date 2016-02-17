@@ -1,6 +1,6 @@
 # TextMining
 
-Here are some practicing code for basic Natural Language Processing and Classificaion.
+Here are some practicing codes for basic Natural Language Processing and Classificaion.
 
 1. Exploratory analysis, words frequency distribution 
    
