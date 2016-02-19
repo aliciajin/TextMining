@@ -6,6 +6,6 @@ Here are some practicing codes for basic Natural Language Processing and Classif
    
    Python, with 'nltk'
 
-2. Author classification, bags of words
+2. Author classification, bags of words, apply Tree, SVM, Logit regression
    
-   R, with 'tm'
+   R, with 'tm', 'SnowballC'
