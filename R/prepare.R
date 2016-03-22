@@ -1,43 +1,19 @@
 #############################
-# < Your Name Here >
-# STAT W4240 
-# Homework 04 
-# < Homework Due Date >
-#
+# < Yiqian Jin >
+# 04 
 # The following code analyzes the federalist papers
 #############################
 
-#################
-# Setup
-#################
-
-# make sure R is in the proper working directory
-# note that this will be a different path for every machine
-setwd("~/Documents/academic/teaching/STAT_W4240_2014_SPRG/dropbox/Homework/hw04")
-
-# first include the relevant libraries
-# note that a loading error might mean that you have to
-# install the package into your R distribution.
-# Use the package installer and be sure to install all dependencies
+# 1a
 library(tm)
-
-#################
-# Problem 1a
-#################
-
-##########################################
 # This code uses tm to preprocess the papers into a format useful for NB
 preprocess.directory = function(dirname){
-	
-	# the directory must have all the relevant text files
 	ds = DirSource(dirname)
-	# Corpus will make a tm document corpus from this directory
 	fp = Corpus( ds )
 	# inspect to verify
 	# inspect(fp[1])
-	# another useful command
 	# identical(fp[[1]], fp[["Federalist01.txt"]])
-	# now let us iterate through and clean this up using tm functionality
+	# iterate through and clean this up using tm functionality
 	for (i in 1:length(fp)){
 		# make all words lower case
 		fp[i] = tm_map( fp[i] , tolower);
@@ -50,16 +26,11 @@ preprocess.directory = function(dirname){
 		# remove extra whitespace
 		fp[i] = tm_map( fp[i], stripWhitespace)	
 	}
-	# now write the corpus out to the files for our future use.
-	# MAKE SURE THE _CLEAN DIRECTORY EXISTS
 	writeCorpus( fp , sprintf('%s_clean',dirname) )
 }
 ##########################################
 
-#################
-# Problem 1b
-#################
-
+# 1b
 ##########################################
 # To read in data from the directories:
 # Partially based on code from C. Shalizi
@@ -75,14 +46,8 @@ read.directory <- function(dirname) {
 }
 ##########################################
 
-#################
-# Problem 1c
-#################
-
+# 1c
 ##########################################
-# Make dictionary sorted by number of times a word appears in corpus 
-# (useful for using commonly appearing words as factors)
-# NOTE: Use the *entire* corpus: training, testing, spam and ham
 make.sorted.dictionary.df <- function(infiles){
     # This returns a dataframe that is sorted by the number of times 
     # a word appears
@@ -101,16 +66,9 @@ make.sorted.dictionary.df <- function(infiles){
 }
 ##########################################
 
-#################
-# Problem 1d
-#################
-
+# 1d
 ##########################################
-# Make a document-term matrix, which counts the number of times each 
-# dictionary element is used in a document
 make.document.term.matrix <- function(infiles,dictionary){
-    # This takes the text and dictionary objects from above and outputs a 
-    # document term matrix
     num.infiles <- length(infiles);
     num.words <- nrow(dictionary);
     # Instantiate a matrix where rows are documents and columns are words
@@ -128,10 +86,7 @@ return(dtm);
 }
 ##########################################
 
-#################
-# Problem 1e
-#################
-
+# 1e
 ##########################################
 make.log.pvec <- function(dtm,mu){
     # Sum up the number of instances per word
@@ -147,9 +102,5 @@ make.log.pvec <- function(dtm,mu){
 ##########################################
 
 
-
-#################
-# End of Script
-#################
 
 

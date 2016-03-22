@@ -1,19 +1,11 @@
 #############################
 # < Yiqian Jin >
-# STAT W4240 
-# Homework 06 
 # < Dec.8 >
-# < Problem 4 >
-
-############# use code from hw4, obtain 4 dtm ##############
-
+# < 06 - 4 >
+############# use code from 04, obtain 4 dtm ##############
 #(a)
-setwd("~/Documents/courses/data mining/hw6")
-
-
 library(tm)
 library('SnowballC')
-
 source('prepare.R')  ## using modified code
 preprocess.directory('fp_hamilton_train')
 preprocess.directory('fp_hamilton_test')
@@ -53,8 +45,6 @@ test.df=data.frame(rbind(dtm.hamilton.test.labeled, dtm.madison.test.labeled))
 
 col_labels=as.vector(mydictionary$word)
 col_labels[length(col_labels)+1]='y'  ### the length is changed to 4876
-
-
 colnames(train.df)=col_labels
 colnames(test.df)=col_labels
 
@@ -73,10 +63,7 @@ test.scale[is.na(test.scale)]<-0
 train.df$y=as.factor(train.df$y)
 test.df$y=as.factor(test.df$y)
 
-
-
-
-####### question 4 
+####### step 04 
 # (a)
 library(e1071)
 length=length(train.scale)
@@ -90,7 +77,6 @@ summary(model1)
 pred.test=predict(model1, test.q4)
 table(pred.test, test.df$y)
 
-
 #(b)
 nword=seq(5,100,5)
 correct_rate=vector( , length(nword))
@@ -100,14 +86,10 @@ for(i in 1:length(nword)){
     model_b=svm(train.df$y~. , data=train.q4, kernel='linear',  type='C')
     pred.test=predict(model_b, test.q4)
     correct_rate[i]=mean(pred.test==test.df$y)
-
 }
-
 plot(nword, correct_rate, type='b')
 
-
 #(c)
-
 nword=seq(5,100,5)
 correct_rate_c=vector( , length(nword))
 for(i in 1:length(nword)){
@@ -116,15 +98,10 @@ for(i in 1:length(nword)){
     model_b=svm(train.df$y~. , data=train.q4, kernel='radial',  type='C')
     pred.test=predict(model_b, test.q4)
     correct_rate_c[i]=mean(pred.test==test.df$y)
-
 }
-
 plot(nword, correct_rate_c, type='b')
 
-
-
 # (d)
-
 a=which(colnames(train.df)=='upon')
 b=which(colnames(train.df)=='depart')
 train.q4d=cbind(train.scale[, a], train.scale[ , b])
@@ -133,5 +110,5 @@ model_d=svm(train.df$y~. ,  data=train.q4d, kernel='radial', type='C')
 pred.test=predict(model_d, test.q4d)
 correct_rate_d=mean(pred.test==test.df$y)
 ##   correct_rate_d=0.962963
- plot(model_d, dataframe)
- dataframe=as.data.frame(cbind(train.q4d, train.df$y))
+plot(model_d, dataframe)
+dataframe=as.data.frame(cbind(train.q4d, train.df$y))

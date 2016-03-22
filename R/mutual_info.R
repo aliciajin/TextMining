@@ -1,29 +1,21 @@
 #############################
 # < Yiqian Jin >
-# STAT W4240 
-# Homework 06 
 # < Dec.8 >
-# < Problem 3 >
+# < 06 - 3 >
 
-
-setwd("~/Documents/courses/data mining/hw6")
-
-
+# setwd()
 library(tm)
 library('SnowballC')
-
 source('prepare.R')  ## using modified code
 preprocess.directory('fp_hamilton_train')
 preprocess.directory('fp_hamilton_test')
 preprocess.directory('fp_madison_train')
 preprocess.directory('fp_madison_test')
 
-
 hamilton.train=read.directory('fp_hamilton_train_clean')
 hamilton.test=read.directory('fp_hamilton_test_clean')
 madison.train=read.directory('fp_madison_train_clean')
 madison.test=read.directory('fp_madison_test_clean')
-
 
 full_list=c(hamilton.train, hamilton.test, madison.train, madison.test)
 length(full_list)  ## output 77
@@ -45,8 +37,6 @@ for(i in 1: nrow( mydictionary )){
 	else{
 		prob.train[ i, 2]=0
 		}
-
-	
 }
 
 prob.h.train=mydictionary
@@ -70,8 +60,6 @@ for(i in 1: nrow( mydictionary )){
 		prob.m.train[ i, 2]=0
 		}
 }
-
-
 
 ##############################################
 prob.train=dict.train  ## 4131
@@ -119,12 +107,9 @@ for(i in 1: nrow(mydictionary)){
 }
 
 
-
 mi1[is.na(mi)]<-0
 mi2[is.na(mi)]<-0
 mi=mi1+mi2
-
-
 sort(mi, decreasing=TRUE)[1:20]
 numNA=sum(is.na(mi))
 
@@ -152,47 +137,31 @@ label_m_train=rep(0, nrow(dtm.madison.train))
 label_h_test=rep(1, nrow(dtm.hamilton.test))
 label_m_test=rep(0, nrow(dtm.madison.test))
 
-
 dtm.hamilton.train.labeled=cbind(dtm.hamilton.train, label_h_train)
 dtm.madison.train.labeled=cbind(dtm.madison.train, label_m_train)
 dtm.hamilton.test.labeled=cbind(dtm.hamilton.test, label_h_test)
 dtm.madison.test.labeled=cbind(dtm.madison.test, label_m_test)
-
 
 train.df=data.frame(rbind(dtm.hamilton.train.labeled, dtm.madison.train.labeled))
 test.df=data.frame(rbind(dtm.hamilton.test.labeled, dtm.madison.test.labeled))
 
 col_labels=as.vector(dict.train$word)
 col_labels[length(col_labels)+1]='y'  ### the length is changed to 4131+1
-
 colnames(train.df)=col_labels
 colnames(test.df)=col_labels
-
-
 
 library(rpart)
 tree.Gini=rpart(train.df$y~., data=train.df, method='class')
 pred.test.Gini=predict(tree.Gini, test.df, type='class')
 table(pred.test.Gini, test.df$y)
 correct_Gini=mean(pred.test.Gini==test.df$y)
-false negative 
-false positive
-
-
+#false negative 
+#false positive
 
 ### using information gain split
 tree.info=rpart(y~. , train.df, method='class', parms=list(split='information'))
 pred.test.info=predict(tree.info, test.df, type='class')
 table(pred.test.info, test.df$y)
 correct_info=mean(pred.test.info==test.df$y)
-false negative 
-false positive
-
-
-### use ridge 
-
-
-
-### use lasso
-
-
+#false negative 
+#false positive

@@ -35,14 +35,8 @@ dataset['clean_status'] = status_list
 ###################
 dataset.to_csv('/users/apple/Documents/powerlinx/description_cleaned4.csv')
 
-
-########  statistical analysis on description length, divided by scraper group
-desc_length = []
-for i in range(len(dataset)):  ## qa: different from for i in dataset?
-    desc_length.append(len(dataset['description'][i]))
-
-dataset['desc_length'] = pd.Series(desc_length)
-
+#####  statistical analysis on description length, divided by scraper group
+dataset['desc_length'] = map(lambda x: len(x), dataset['description'] )
 by_scraper = dataset.groupby('scraper')
 len(by_scraper)
 by_scraper.count().head()
@@ -71,15 +65,13 @@ def freq(scraper_name):
 
 #freq('linkedin').most_common(100)
 scraper_list = set(dataset.scraper)
-
-freq_df = pd.DataFrame(columns=scraper_list)
+freq_df = pd.DataFrame(columns = scraper_list)
 for name in scraper_list:
-    freq_df[name]=freq(name).most_common(100)
+    freq_df[name] = freq(name).most_common(100)
 freq_df.to_csv('/users/apple/Documents/powerlinx/freq_df.csv')
 
 ################################################
-
-########## get the 100 most frequent phrases: phrase_df ######
+### get the 100 most frequent phrases: phrase_df ######
 def phrase(scraper_name):
     list_of_description = dataset[dataset.scraper == scraper_name].description
     joined = ' '.join(list_of_description).lower()
@@ -93,13 +85,8 @@ def phrase(scraper_name):
 scraper_list = set(dataset.scraper)
 phrase_df = pd.DataFrame(columns=scraper_list)
 for name in scraper_list:
-    phrase_df[name]=phrase(name)
+    phrase_df[name] = phrase(name)
 phrase_df.to_csv('/users/apple/Documents/powerlinx/phrase_df.csv')
-
-
-
-
-
 
 ########   language detect trial  ########
 from nltk.corpus import stopwords
@@ -108,7 +95,6 @@ def language_detect(text):
     language_ratios = {}
     words = [word.lower() for word in tokens]
     words_set = set(words)
-    
     for language in stopwords.fileids():
         stopwords_set = set(stopwords.words(language))
         commen_elements = words_set.intersection(stopwords_set)
